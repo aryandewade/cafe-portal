@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "echo 'Static build ready'",
     "start": "bun server.js",
     "dev": "bun server.js"
   },
