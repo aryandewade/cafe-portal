@@ -1,0 +1,12 @@
+{
+  "name": "cafe-tracker-portal",
+  "version": "1.0.0",
+  "description": "Enterprise SaaS Super-Admin & Multi-Tenant Cafe Tracking Portal",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "bun server.js",
+    "dev": "bun server.js"
+  },
+  "keywords": ["cafe-tracker", "loyalty-cards", "saas", "multi-tenant", "supabase"]
+}

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Engiplex Cafe Tracker — Multi-Tenant Loyalty Pass Command Center</title>
+  <meta name="description" content="Centralized SaaS tracking portal for cafe loyalty card subscriptions, live database metrics, cafe owners, credentials, and free tier status.">
+
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Pro-Max Light Design System -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Main Container -->
+  <div class="app-container">
+
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="brand-section">
+        <div class="brand-logo-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+            <line x1="6" y1="2" x2="6" y2="4"/>
+            <line x1="10" y1="2" x2="10" y2="4"/>
+            <line x1="14" y1="2" x2="14" y2="4"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>
+            Engiplex Cafe Tracker
+            <span class="brand-badge">Platform Operator</span>
+          </h1>
+          <p>Multi-Tenant Loyalty Subscriptions, Credentials &amp; Live Telemetry</p>
+        </div>
+      </div>
+
+      <!-- Header Action Controls -->
+      <div class="header-actions">
+        <button id="sync-all-btn" class="btn btn-secondary" aria-label="Sync All Databases" title="Ping and synchronize all partner databases">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 2v6h-6"/>
+            <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+            <path d="M3 22v-6h6"/>
+            <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+          </svg>
+          <span>Sync All Databases</span>
+        </button>
+
+        <button id="export-btn" class="btn btn-secondary btn-icon" aria-label="Export Records to JSON" title="Export records to JSON">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </button>
+
+        <button id="import-btn" class="btn btn-secondary btn-icon" aria-label="Import Records from JSON" title="Import records from JSON">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </button>
+        <input type="file" id="import-file-input" accept=".json" style="display: none;">
+
+        <button id="onboard-trigger-btn" class="btn btn-primary" aria-label="Onboard New Cafe">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          <span>Onboard New Cafe</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Top KPI Grid -->
+    <section class="kpi-grid" id="kpi-section" aria-label="Platform Key Performance Indicators">
+      <!-- KPI 1 -->
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Partner Cafes</span>
+          <div class="kpi-icon-wrap" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" id="kpi-total-cafes" aria-live="polite">52</span>
+          <span class="trend-badge trend-positive">Active SaaS</span>
+        </div>
+        <div class="kpi-meta">
+          <span>Active accounts across 52 cafe partners</span>
+        </div>
+      </div>
+
+      <!-- KPI 2 -->
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Live Customers Tracked</span>
+          <div class="kpi-icon-wrap" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" id="kpi-total-customers" aria-live="polite">1,843</span>
+          <span class="trend-badge trend-positive">Live REST Query</span>
+        </div>
+        <div class="kpi-meta">
+          <span>Combined digital pass members</span>
+        </div>
+      </div>
+
+      <!-- KPI 3 -->
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Trials Expiring Soon</span>
+          <div class="kpi-icon-wrap" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" id="kpi-expiring-trials" aria-live="polite">39</span>
+          <span class="trend-badge trend-warning">&lt; 7 Days Remaining</span>
+        </div>
+        <div class="kpi-meta">
+          <span>Action required: renewal alert</span>
+        </div>
+      </div>
+
+      <!-- KPI 4 -->
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <span class="kpi-title">Paid Subscribers</span>
+          <div class="kpi-icon-wrap" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3h12l4 6-10 13L2 9Z"/>
+              <path d="M11 3 8 9l4 13 4-13-3-6"/>
+              <path d="M2 9h20"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" id="kpi-active-subs" aria-live="polite">13</span>
+          <span class="trend-badge trend-positive">Annual / Pro</span>
+        </div>
+        <div class="kpi-meta">
+          <span>Standard recurring accounts</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Controls Bar -->
+    <section class="controls-bar" aria-label="Table Filters and Search">
+      <!-- Filter Pills -->
+      <div class="filter-pills" role="tablist" aria-label="Filter cafes by subscription status">
+        <button class="filter-pill active" data-filter="all" role="tab" aria-selected="true">
+          All Cafes <span class="pill-count" id="pill-count-all">4</span>
+        </button>
+        <button class="filter-pill" data-filter="active" role="tab" aria-selected="false">
+          <span class="status-dot dot-green" aria-hidden="true"></span> Paid Active <span class="pill-count" id="pill-count-active">1</span>
+        </button>
+        <button class="filter-pill" data-filter="trialing" role="tab" aria-selected="false">
+          <span class="status-dot dot-amber" aria-hidden="true"></span> Free Tier Trial <span class="pill-count" id="pill-count-trialing">2</span>
+        </button>
+        <button class="filter-pill" data-filter="expiring" role="tab" aria-selected="false">
+          <span class="status-dot dot-amber" aria-hidden="true"></span> Expiring Soon <span class="pill-count" id="pill-count-expiring">1</span>
+        </button>
+        <button class="filter-pill" data-filter="expired" role="tab" aria-selected="false">
+          <span class="status-dot dot-red" aria-hidden="true"></span> Expired <span class="pill-count" id="pill-count-expired">1</span>
+        </button>
+      </div>
+
+      <!-- Real-Time Search Box with Keyboard Shortcut -->
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </span>
+        <input type="text" id="search-input" class="search-input" placeholder="Search cafes, owners, phone, city..." aria-label="Search partner cafes">
+        <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Clear search input">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+        <span class="kbd-hint" id="kbd-hint" aria-hidden="true">/</span>
+      </div>
+    </section>
+
+    <!-- Cafe Table -->
+    <main class="table-card" aria-label="Partner Cafes Roster">
+      <div class="table-responsive">
+        <table class="cafe-table">
+          <thead>
+            <tr>
+              <th class="th-sortable" data-sort="name">
+                Cafe &amp; Brand <span class="sort-arrow" aria-hidden="true">▼</span>
+              </th>
+              <th>Owner &amp; Contact</th>
+              <th>Database Architecture</th>
+              <th class="th-sortable" data-sort="customers">
+                Live Customers <span class="sort-arrow" aria-hidden="true">▼</span>
+              </th>
+              <th class="th-sortable" data-sort="trial">
+                Free Tier Status <span class="sort-arrow" aria-hidden="true">▼</span>
+              </th>
+              <th>Owner Credentials</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="cafe-table-body">
+            <!-- Dynamically populated by js/tracker.js -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Onboarding Modal -->
+  <div class="modal-overlay" id="onboard-modal" role="dialog" aria-modal="true" aria-labelledby="onboard-modal-title">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="onboard-modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+          </svg>
+          Onboard New Cafe to Platform
+        </h3>
+        <button id="modal-close-btn" class="modal-close-btn" aria-label="Close dialog">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <form id="onboard-form">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="new-cafe-name">Cafe Name *</label>
+              <input type="text" id="new-cafe-name" class="form-control" placeholder="e.g. Arabica Roastery" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-cafe-city">City *</label>
+              <input type="text" id="new-cafe-city" class="form-control" placeholder="e.g. Mumbai, Bengaluru" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="new-owner-name">Cafe Owner Full Name *</label>
+              <input type="text" id="new-owner-name" class="form-control" placeholder="e.g. Rohan Roy" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-owner-phone">Owner Phone (WhatsApp) *</label>
+              <input type="text" id="new-owner-phone" class="form-control" placeholder="e.g. +91 98200 12345" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="new-owner-email">Owner Email (Portal Login) *</label>
+            <input type="email" id="new-owner-email" class="form-control" placeholder="owner@cafename.com" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="new-cafe-password">Owner Portal Password</label>
+              <div class="input-with-action">
+                <input type="text" id="new-cafe-password" class="form-control form-control-mono" value="CafePass_8921">
+                <button type="button" id="gen-pwd-btn" class="input-action-btn" aria-label="Auto-generate password">Gen</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="new-owner-pin">Barista Stamp PIN (4 Digits)</label>
+              <input type="text" id="new-owner-pin" class="form-control form-control-mono" maxlength="6" value="1234">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="new-cafe-address">Store Address</label>
+            <input type="text" id="new-cafe-address" class="form-control" placeholder="Street, Landmark, Area">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Free Tier Trial Period</label>
+            <div style="display: flex; gap: 16px; margin-top: 4px; flex-wrap: wrap;">
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                <input type="radio" name="trial_days" value="7"> 7 Days
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                <input type="radio" name="trial_days" value="14" checked> 14 Days (Standard)
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                <input type="radio" name="trial_days" value="30"> 30 Days (Extended)
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer;">
+                <input type="radio" name="trial_days" value="60"> 60 Days (Partner Promo)
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Database Architecture</label>
+            <div class="db-mode-cards">
+              <div class="db-mode-card selected" id="mode-dedicated" role="button" tabindex="0">
+                <h4>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                    <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
+                    <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                  </svg>
+                  Dedicated Supabase DB
+                </h4>
+                <p>Isolated database project with its own REST API Key.</p>
+              </div>
+
+              <div class="db-mode-card" id="mode-shared" role="button" tabindex="0">
+                <h4>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                  </svg>
+                  Shared Platform DB
+                </h4>
+                <p>Central Engiplex DB segmented by tenant slug.</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="dedicated-db-fields" style="display: flex; flex-direction: column; gap: 12px; background: #F8FAFC; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <div class="form-group">
+              <label class="form-label" for="new-supabase-url">Supabase Project URL</label>
+              <input type="text" id="new-supabase-url" class="form-control form-control-mono" placeholder="https://your-project.supabase.co">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="new-supabase-key">Supabase API Key (Anon / Service)</label>
+              <input type="text" id="new-supabase-key" class="form-control form-control-mono" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6...">
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+              <button type="button" id="test-modal-db-btn" class="btn btn-secondary btn-sm">
+                Test DB Connection
+              </button>
+              <div id="modal-db-status" style="font-size: 12px; font-family: var(--font-mono);"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="modal-cancel-btn" class="btn btn-ghost">Cancel</button>
+          <button type="submit" class="btn btn-primary">Onboard Cafe &amp; Generate Access</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Slide-Over Drawer for Cafe Inspection -->
+  <div class="drawer-backdrop" id="drawer-backdrop" role="dialog" aria-modal="true" aria-label="Cafe Detail Drawer">
+    <div class="drawer-panel" id="drawer-content">
+      <!-- Dynamically filled by js/tracker.js -->
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="assertive"></div>
+
+  <!-- Universal Script (works over file:// and http://) -->
+  <script src="js/tracker.js"></script>
+</body>
+</html>
