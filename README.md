@@ -56,7 +56,7 @@ bun start
 ```
 Or with Node.js:
 ```bash
-node server.js
+node dev-server.js
 ```
 Then visit `http://localhost:5050`.
 

@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "echo 'Static build ready'",
-    "start": "bun server.js",
-    "dev": "bun server.js"
+    "start": "bun dev-server.js",
+    "dev": "bun dev-server.js"
   },
   "keywords": ["cafe-tracker", "loyalty-cards", "saas", "multi-tenant", "supabase"]
 }
