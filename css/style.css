@@ -820,6 +820,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition-normal);
@@ -840,13 +841,21 @@ body {
   transform: translateY(14px) scale(0.98);
   transition: transform var(--transition-normal);
   overflow: hidden;
-  max-height: 90vh;
+  max-height: calc(100dvh - 40px);
+  min-height: 0;
   display: flex;
   flex-direction: column;
 }
 
 .modal-overlay.active .modal-dialog {
   transform: translateY(0) scale(1);
+}
+
+.modal-dialog > form {
+  min-height: 0;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
 }
 
 .modal-header {
@@ -888,6 +897,8 @@ body {
 .modal-body {
   padding: 22px;
   overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   gap: 16px;
