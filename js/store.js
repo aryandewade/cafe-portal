@@ -154,7 +154,7 @@ export class CafeStore {
   addCafe(newCafe) {
     const id = 'cafe_' + Date.now();
     const createdDate = new Date();
-    const trialDays = parseInt(newCafe.trialDays, 10) || 14;
+    const trialDays = [7, 10].includes(parseInt(newCafe.trialDays, 10)) ? parseInt(newCafe.trialDays, 10) : 7;
     const endDate = new Date(createdDate.getTime() + trialDays * 24 * 60 * 60 * 1000);
 
     const cafe = {
@@ -210,7 +210,7 @@ export class CafeStore {
     return true;
   }
 
-  extendFreeTier(id, extraDays = 14) {
+  extendFreeTier(id, extraDays = 7) {
     const cafe = this.getById(id);
     if (!cafe) return null;
 
@@ -219,7 +219,7 @@ export class CafeStore {
     const newEnd = new Date(baseTime + extraDays * 24 * 60 * 60 * 1000);
 
     cafe.freeTierEnd = newEnd.toISOString();
-    cafe.totalTrialDays = (cafe.totalTrialDays || 14) + extraDays;
+    cafe.totalTrialDays = (cafe.totalTrialDays || 7) + extraDays;
     
     // Auto-update status
     if (cafe.subscriptionStatus === 'expired') {

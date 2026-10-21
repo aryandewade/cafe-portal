@@ -56,7 +56,7 @@ export class CafeDrawer {
       `• Email: ${cafe.email}\n` +
       `• Password: ${cafe.rawPassword}\n` +
       `• Barista Stamp PIN: ${cafe.ownerStampPin}\n\n` +
-      `Enjoy your ${cafe.totalTrialDays || 14}-day free tier! Let us know if you need any assistance.`
+      `Enjoy your ${cafe.totalTrialDays || 7}-day free tier! Let us know if you need any assistance.`
     );
 
     const expiryMsg = encodeURIComponent(
@@ -116,8 +116,8 @@ export class CafeDrawer {
             <!-- Extend Trial Quick Buttons -->
             <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
               <button class="btn btn-secondary btn-sm extend-btn" data-days="7">+7 Days</button>
-              <button class="btn btn-secondary btn-sm extend-btn" data-days="14">+14 Days</button>
-              <button class="btn btn-secondary btn-sm extend-btn" data-days="30">+30 Days</button>
+              <button class="btn btn-secondary btn-sm extend-btn" data-days="7">+7 Days</button>
+              <button class="btn btn-secondary btn-sm extend-btn" data-days="10">+10 Days</button>
               <button class="btn btn-primary btn-sm" id="convert-pro-btn" style="margin-left: auto;">Mark as Pro</button>
             </div>
           </div>

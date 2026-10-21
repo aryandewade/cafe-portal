@@ -291,7 +291,8 @@ class CafeStore {
   addCafe(newCafe) {
     const id = 'cafe_' + Date.now();
     const createdDate = new Date();
-    const trialDays = parseInt(newCafe.trialDays, 10) || 14;
+    const parsedTrialDays = parseInt(newCafe.trialDays, 10);
+    const trialDays = [7, 10].includes(parsedTrialDays) ? parsedTrialDays : 7;
     const endDate = new Date(createdDate.getTime() + trialDays * 24 * 60 * 60 * 1000);
 
     const cafe = {
@@ -347,7 +348,7 @@ class CafeStore {
     return true;
   }
 
-  extendFreeTier(id, extraDays = 14) {
+  extendFreeTier(id, extraDays = 7) {
     const cafe = this.getById(id);
     if (!cafe) return null;
 
@@ -356,7 +357,7 @@ class CafeStore {
     const newEnd = new Date(baseTime + extraDays * 24 * 60 * 60 * 1000);
 
     cafe.freeTierEnd = newEnd.toISOString();
-    cafe.totalTrialDays = (cafe.totalTrialDays || 14) + extraDays;
+    cafe.totalTrialDays = (cafe.totalTrialDays || 7) + extraDays;
     
     if (cafe.subscriptionStatus === 'expired') {
       cafe.subscriptionStatus = 'trialing';
@@ -550,7 +551,8 @@ class OnboardingModal {
     const pin = document.getElementById('new-owner-pin')?.value;
     const city = document.getElementById('new-cafe-city')?.value;
     const address = document.getElementById('new-cafe-address')?.value;
-    const trialDays = document.querySelector('input[name="trial_days"]:checked')?.value || 14;
+    const selectedTrialDays = document.querySelector('input[name="trial_days"]:checked')?.value;
+    const trialDays = ['7', '10'].includes(selectedTrialDays) ? selectedTrialDays : '7';
 
     const supabaseUrl = document.getElementById('new-supabase-url')?.value;
     const supabaseKey = document.getElementById('new-supabase-key')?.value;
@@ -635,7 +637,7 @@ class CafeDrawer {
       `Email: ${cafe.email}\n` +
       `Password: ${cafe.rawPassword}\n` +
       `Barista Stamp PIN: ${cafe.ownerStampPin}\n\n` +
-      `Enjoy your ${cafe.totalTrialDays || 14}-day free tier!`
+      `Enjoy your ${cafe.totalTrialDays || 7}-day free tier!`
     );
 
     const expiryMsg = encodeURIComponent(
@@ -695,8 +697,8 @@ class CafeDrawer {
 
             <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
               <button class="btn btn-secondary btn-sm extend-btn" data-days="7">+7 Days</button>
-              <button class="btn btn-secondary btn-sm extend-btn" data-days="14">+14 Days</button>
-              <button class="btn btn-secondary btn-sm extend-btn" data-days="30">+30 Days</button>
+              <button class="btn btn-secondary btn-sm extend-btn" data-days="7">+7 Days</button>
+              <button class="btn btn-secondary btn-sm extend-btn" data-days="10">+10 Days</button>
               <button class="btn btn-primary btn-sm" id="convert-pro-btn" style="margin-left: auto;">Mark as Pro</button>
             </div>
           </div>

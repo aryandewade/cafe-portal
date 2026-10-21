@@ -122,7 +122,8 @@ export class OnboardingModal {
     const pin = document.getElementById('new-owner-pin')?.value;
     const city = document.getElementById('new-cafe-city')?.value;
     const address = document.getElementById('new-cafe-address')?.value;
-    const trialDays = document.querySelector('input[name="trial_days"]:checked')?.value || 14;
+    const selectedTrialDays = document.querySelector('input[name="trial_days"]:checked')?.value;
+    const trialDays = ['7', '10'].includes(selectedTrialDays) ? selectedTrialDays : '7';
 
     const supabaseUrl = document.getElementById('new-supabase-url')?.value;
     const supabaseKey = document.getElementById('new-supabase-key')?.value;
